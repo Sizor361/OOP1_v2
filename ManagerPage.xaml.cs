@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace OOP1_v2
+{
+    /// <summary>
+    /// Логика взаимодействия для ManagerPage.xaml
+    /// </summary>
+    public partial class ManagerPage : Page
+    {
+        Worker manager = new Manager();
+
+        ObservableCollection<Worker> worker;
+
+        public ManagerPage()
+        {
+            InitializeComponent();
+
+            worker = manager.RefreshDB(manager);
+
+            WorkerManagerList.ItemsSource = worker;
+
+            DataContext = new Manager();
+        }
+
+        private void ChangeData(object sender, RoutedEventArgs e)
+        {
+            manager.CheckAndWrite(worker);
+        }
+    }
+}
