@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace OOP1_v2
 {
-    class Consult : Worker
+    class Consult : Worker, IChangedData
     {
         #region Конструкторы
 
@@ -34,9 +35,39 @@ namespace OOP1_v2
 
         #endregion
 
-        public override string DataPassport
+        #region Свойства
+
+        /// <summary>
+        /// Маска на паспорт
+        /// </summary>
+        public new string DataPassport
         {
-            get => "***-*****";
+            get { return "***-*****"; }
+            private set { dataPassport = value; }
         }
+
+        #endregion
+
+        #region Интерфейсы
+
+        public List<Worker> ChangeData(List<Worker> consults, int index, List<String> newData)
+        {
+            if (consults[index].Telephone != newData[0])
+            {
+                consults[index].WhichDataChange = $"{consults[index].Telephone}->{newData[0]}\\";
+                consults[index].TypeOfChange = $"Телефон\\";
+                consults[index].TimeChangeOrder = Convert.ToString(DateTime.Now);
+                consults[index].WhoChanged = "Консультант";
+            }
+
+            return consults;
+        }
+
+        public List<Worker> AddOrder(List<Worker> managers, List<string> newData)
+        {
+            return managers;
+        }
+
+        #endregion
     }
 }

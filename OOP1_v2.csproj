@@ -59,6 +59,7 @@
     <Compile Include="ConsultPage.xaml.cs">
       <DependentUpon>ConsultPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IChangedData.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="ManagerPage.xaml.cs">
       <DependentUpon>ManagerPage.xaml</DependentUpon>

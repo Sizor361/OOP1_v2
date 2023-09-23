@@ -7,15 +7,9 @@
         mc:Ignorable="d"
         
         Title="ООП 1 часть" 
-    
-    MinHeight="450"
-    MaxHeight="800"
-    
-    MinWidth="600"
-    MaxWidth="2000"
-    
-    Height="600" 
-    Width="1500">
+
+        Height="700" 
+        Width="1400">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -30,46 +24,15 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="ConsultPage" 
-            Grid.Column="1" 
-            Grid.Row="1"
-            Margin="5,5,5,5" Click="Consult_Click" >
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Rectangle Fill="#FF717171"></Rectangle>
-                        <TextBlock Text="Консультант" 
-                               VerticalAlignment="Center" 
-                               HorizontalAlignment="Center" 
-                               FontSize="15"/>
-                    </Grid>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button x:Name="ConsultPage" Content="Консультант"  Margin="5,5,5,5" Grid.Column="1" 
+                Grid.Row="1"  Click="Consult_Click" FontSize="14"/>
 
-        <Button x:Name="ManagerPage" 
-    Grid.Column="2" 
-    Grid.Row="1"
-    Margin="5,5,5,5" 
-    Background="Black" Click="Manager_Click" >
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Rectangle Fill="#FF717171"></Rectangle>
-                        <TextBlock Text="Менеджер" 
-                       VerticalAlignment="Center" 
-                       HorizontalAlignment="Center" 
-                       FontSize="15"/>
-                    </Grid>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button x:Name="ManagerPage" Content="Менеджер"  Margin="5,5,5,5" Grid.Column="2" 
+        Grid.Row="1" FontSize="14" Click="Manager_Click"/>
 
         <Frame Name="MainFrame"
            Grid.Column="0" 
            Grid.ColumnSpan="4"
-           VerticalAlignment="Stretch"
-           HorizontalAlignment="Stretch"
            Grid.Row="2"
            NavigationUIVisibility="Hidden"/>
     </Grid>       

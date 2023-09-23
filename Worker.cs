@@ -11,17 +11,11 @@ using System.Windows;
 
 namespace OOP1_v2
 {
-    abstract class Worker : INotifyPropertyChanged
+    abstract class Worker
     {
-
-        public ObservableCollection<Worker> workers = new ObservableCollection<Worker>();
-
         #region Статичные переменные
 
         public static string pathToFile;
-
-        
-
 
         #endregion
 
@@ -32,20 +26,19 @@ namespace OOP1_v2
             pathToFile = "DataBase.txt";
         }
 
-
         #endregion
 
         #region Поля
 
-        private string secondName;
+        protected string secondName;
 
-        private string name;
+        protected string name;
 
-        private string middleName;
+        protected string middleName;
 
-        private string telephone;
+        protected string telephone;
 
-        private string dataPassport;
+        protected string dataPassport;
 
         #endregion
 
@@ -57,17 +50,17 @@ namespace OOP1_v2
 
         public string MiddleName { get; set; }
 
-        public string Telephone
-        {
-            get { return telephone; }
-            set
-            {
-                telephone = value;
-                OnPropertyChanged("Telephone");
-            }
-        }
+        public string Telephone { get; set; }
 
-        public virtual string DataPassport { get; set; }
+        public string DataPassport { get; set; }
+
+        public string TimeChangeOrder { get; set; } = "Изменений не было";
+
+        public string WhichDataChange { get; set; } = "Изменений не было";
+
+        public string TypeOfChange { get; set; } = "Изменений не было";
+
+        public string WhoChanged { get; set; } = "Изменений не было";
 
         #endregion
 
@@ -106,23 +99,21 @@ namespace OOP1_v2
         /// Порядок записи в БД
         /// </summary>
         /// <returns></returns>
-        protected string WriteOrder()
+        public string WriteOrder()
         {
-            return $"{SecondName}#{Name}#{MiddleName}#{Telephone}#{DataPassport}#";
+            return $"{SecondName}#{Name}#{MiddleName}#{Telephone}#{DataPassport}#{TimeChangeOrder}#{WhichDataChange}#{TypeOfChange}#{WhoChanged}#";
         }
 
         /// <summary>
-        /// Обновление базы данных
+        /// Вытаскиваем данные из БД
         /// </summary>
-        /// <param name="dataBase">Передаем сюда ObservableCollection, который будем потом получать обратно со значениями из БД</param>
-        /// <returns></returns>
-        public ObservableCollection<Worker> RefreshDB(Worker TheWorker)
+        /// <returns>Получаем список из БД</returns>
+        public List<Worker> Deserialize(bool isManager)
         {
+            Manager managers;
+            Consult consults;
 
-            if (workers != null)
-            {
-                workers.Clear();
-            }
+            List<Worker> workerList = new List<Worker>();
 
             using (StreamReader reader = new StreamReader(pathToFile))
             {
@@ -130,26 +121,53 @@ namespace OOP1_v2
                 {
                     string[] args = reader.ReadLine().Split('#');
 
-                    if (TheWorker is Manager)
+                    if (isManager)
                     {
-                        workers.Add(new Manager(args[0], args[1], args[2], args[3], args[4]));
+                        managers = new Manager(args[0], args[1], args[2], args[3], args[4]);
+                        managers.TimeChangeOrder = args[5];
+                        managers.WhichDataChange = args[6];
+                        managers.TypeOfChange = args[7];
+                        managers.WhoChanged = args[8];
+                        workerList.Add(managers);
                     }
-                    else if (TheWorker is Consult)
+                    else
                     {
-                        workers.Add(new Consult(args[0], args[1], args[2], args[3], args[4]));
+                        consults = new Consult(args[0], args[1], args[2], args[3], args[4]);
+                        consults.TimeChangeOrder = args[5];
+                        consults.WhichDataChange = args[6];
+                        consults.TypeOfChange = args[7];
+                        consults.WhoChanged = args[8];
+                        workerList.Add(consults);
                     }
-
                 }
                 reader.Close();
             }
 
-            return workers;
+            return workerList;
+        }
+
+        /// <summary>
+        /// База данных для показа
+        /// </summary>
+        /// <param name="view">Кого показываем</param>
+        /// <param name="data">Откуда берутся данные</param>
+        /// <returns></returns>
+        public List<Worker> RefreshDBView(ObservableCollection<Worker> view, List<Worker> data)
+        {
+            view.Clear();
+
+            foreach (var item in data)
+            {
+                view.Add(item);
+            }
+
+            return data;
         }
 
         /// <summary>
         /// Проверяется запись телефона на ввод и если всё ок - то будет запись в БД
         /// </summary>
-        public void CheckAndWrite(ObservableCollection<Worker> newOrder)
+        public void CheckAndWrite(List<Worker> newOrder)
         {
             if (Check(newOrder) == true)
             {
@@ -157,7 +175,12 @@ namespace OOP1_v2
             }
         }
 
-        public bool Check(ObservableCollection<Worker> newOrder)
+        /// <summary>
+        /// Условие проверки
+        /// </summary>
+        /// <param name="newOrder">Что проверяем</param>
+        /// <returns></returns>
+        public bool Check(List<Worker> newOrder)
         {
             bool isOkay = true;
 
@@ -177,7 +200,11 @@ namespace OOP1_v2
             return isOkay;
         }
 
-        public void Write(ObservableCollection<Worker> newOrder)
+        /// <summary>
+        /// Записываем в БД 
+        /// </summary>
+        /// <param name="newOrder">Что записываем</param>
+        public void Write(List<Worker> newOrder)
         {
 
             using (StreamWriter writer = new StreamWriter(pathToFile))
@@ -192,17 +219,5 @@ namespace OOP1_v2
         }
 
         #endregion
-
-        #region Интерфейсы
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-
-        #endregion
-
     }
 }

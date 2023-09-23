@@ -21,7 +21,6 @@ namespace OOP1_v2
     /// </summary>
     public partial class MainWindow : Window
     {
-
         #region Странички
 
         ConsultPage consultPage = new ConsultPage();
@@ -30,6 +29,7 @@ namespace OOP1_v2
         #endregion
 
         #region Конструктор этого класса
+
         public MainWindow()
         {
             InitializeComponent();

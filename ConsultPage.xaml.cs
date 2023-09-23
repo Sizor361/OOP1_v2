@@ -21,25 +21,127 @@ namespace OOP1_v2
     /// </summary>
     public partial class ConsultPage : Page
     {
-        Worker consult = new Consult();
+        #region Поля и переменные
 
-        ObservableCollection<Worker> worker;
+        Consult consult = new Consult();
+
+        ObservableCollection<Worker> consultsView = new ObservableCollection<Worker>();
+
+        List<Worker> consults = new List<Worker>();
+
+        bool isSelect = false;
+
+        #endregion
+
+        #region Конструктор страницы
 
         public ConsultPage()
         {
             InitializeComponent();
-
-            worker = consult.RefreshDB(consult);
-
-            WorkerConsultList.ItemsSource = worker;
-
-            DataContext = new Consult();
+            
         }
 
-        private void ChangeData(object sender, RoutedEventArgs e)
+        #endregion
+
+        #region Методы
+
+        /// <summary>
+        /// Обновляем БД
+        /// </summary>
+        private void Refresh()
         {
-            consult.CheckAndWrite(worker);
-            //MessageBox.Show("");
+            consults.Clear();
+
+            consultsView.Clear();
+
+            consults = consult.Deserialize(false);
+
+            foreach (var item in consults)
+            {
+                consultsView.Add(item);
+            }
+
+            WorkerConsultList.ItemsSource = consultsView;
         }
+
+        #endregion
+
+        #region События
+
+        /// <summary>
+        /// Кнопка изменить запись
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeOrder(object sender, RoutedEventArgs e)
+        {
+            if (isSelect)
+            {
+                ChangePanel.Visibility = Visibility.Visible;
+
+                SecondnameTextBox.Text = consults[WorkerConsultList.SelectedIndex].SecondName;
+                NameTextBox.Text = consults[WorkerConsultList.SelectedIndex].Name;
+                MiddlenameTextBox.Text = consults[WorkerConsultList.SelectedIndex].MiddleName;
+                TelephoneTextBox.Text = consults[WorkerConsultList.SelectedIndex].Telephone;
+                DataPassportTextBox.Text = consults[WorkerConsultList.SelectedIndex].DataPassport;
+
+                SecondnameTextBox.IsEnabled = false;
+                NameTextBox.IsEnabled = false;
+                MiddlenameTextBox.IsEnabled = false;
+                DataPassportTextBox.IsEnabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Кнопка сохранить
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveChabges(object sender, RoutedEventArgs e)
+        {
+            List<String> newData = new List<String> { TelephoneTextBox.Text };
+
+            consults = consult.ChangeData(consults, WorkerConsultList.SelectedIndex, newData);
+
+            consults[WorkerConsultList.SelectedIndex].Telephone = TelephoneTextBox.Text;
+
+            consult.CheckAndWrite(consults);
+
+            Refresh();
+
+            ChangePanel.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// Проверка на то, что какая-то запись выбрана
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectOrder(object sender, SelectionChangedEventArgs e)
+        {
+            if (WorkerConsultList.SelectedIndex >= 0)
+            {
+                ChangeOrderButton.IsEnabled = true;
+                isSelect = true;
+            }
+            else
+            {
+                ChangeOrderButton.IsEnabled = false;
+                isSelect = false;
+            }
+        }
+
+        /// <summary>
+        /// При заходе на страницу обновляем БД
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Refresh(object sender, RoutedEventArgs e)
+        {
+            Refresh();
+            ChangePanel.Visibility = Visibility.Hidden;
+        }
+
+        #endregion
     }
 }

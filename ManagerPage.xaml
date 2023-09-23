@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:OOP1_v2"
       mc:Ignorable="d" 
-       d:DesignHeight="450" d:DesignWidth="1390"
+       d:DesignHeight="500" d:DesignWidth="1300"
   Title="ManagerPage">
 
     <Grid>
@@ -13,8 +13,13 @@
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="156"/>
+            <ColumnDefinition Width="156"/>
+            <ColumnDefinition Width="156"/>
+            <ColumnDefinition Width="156"/>
+            <ColumnDefinition Width="156"/>
             <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
@@ -24,122 +29,66 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="AddOrder"
-            Margin="5,-50,5,10" 
-            Background="Black" 
-            Width="90" 
-            Height="40" 
-            Grid.Column="5">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Rectangle Fill="#FF717171"></Rectangle>
-                        <TextBlock Text="Добавить запись" 
-                               TextWrapping="Wrap" 
-                               VerticalAlignment="Center" 
-                               HorizontalAlignment="Center" 
-                               FontSize="15"/>
-                    </Grid>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <StackPanel x:Name="ChangePanel" Grid.Column="3" Grid.ColumnSpan="6" Margin="0,-100,0,10" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment ="Center" HorizontalAlignment="Center" Visibility="Hidden" >
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Фамилия" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0" TextAlignment="Center" FontSize="13"/>
+                <TextBox x:Name="SecondnameTextBox" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Имя" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0" TextAlignment="Center" FontSize="13"/>
+                <TextBox x:Name="NameTextBox" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Отчество" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0" TextAlignment="Center" FontSize="13"/>
+                <TextBox x:Name="MiddlenameTextBox" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Телефон" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0" TextAlignment="Center" FontSize="13"/>
+                <TextBox x:Name="TelephoneTextBox" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Паспортные данные" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0" TextAlignment="Center" FontSize="13"/>
+                <TextBox x:Name="DataPassportTextBox" Width="130" Height="20" HorizontalAlignment="Left" Margin="10,0,10,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="saveButton" 
+        Height="40"
+        Width="90"
+        FontSize="15"
+        Content="Сохранить"
+        HorizontalContentAlignment="Center"
+        VerticalContentAlignment="Center" 
+        Margin="5,5,5,5" 
+        Click="SaveChabges"/>
+            </StackPanel>
+        </StackPanel>
 
+
+        <Button x:Name="AddOrder" Content="Добавить"  Margin="5,-50,5,10" Grid.Column="10" 
+Click="NewOrder" FontSize="14" Width="90" Height="40" />
+
+        <Button x:Name="ChangeOrderButton" Content="Изменить"  Margin="5,-50,5,10" Grid.Column="9" 
+Click="ChangeOrder" FontSize="14" IsEnabled="False" Width="90" Height="40" />
 
         <ListView x:Name="WorkerManagerList" 
-              ItemsSource="{Binding workers}"
-              Grid.Column="0"
-              Grid.ColumnSpan="7" 
-              Grid.Row="2" LostFocus="ChangeData">
+                  Grid.Column="0"
+                  Grid.ColumnSpan="12" 
+                  Grid.Row="2" 
+                  SelectionChanged="SelectOrder" 
+                  Loaded="Refresh">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Фамилия" Width="160">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBox    Name="ChangeSecondText"
-                                            Text="{Binding SecondName}" 
-                                            TextWrapping="Wrap" 
-                                            Width="145"
-                                            MinWidth="145"
-                                            MaxWidth="145"
-                                            Margin="0,3,0,3" 
-                                            >
-                                    </TextBox>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Имя" Width="160">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBox    Name="ChangeNameText"
-                                            Text="{Binding Name}" 
-                                            TextWrapping="Wrap" 
-                                            Width="145"
-                                            MinWidth="145"
-                                            MaxWidth="145"
-                                            Margin="0,3,0,3">
-                                    </TextBox>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Отчество" Width="160">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBox    Name="ChangeMiddleNameText"
-                                            Text="{Binding MiddleName}" 
-                                            TextWrapping="Wrap" 
-                                            Width="145"
-                                            MinWidth="145"
-                                            MaxWidth="145"
-                                            Margin="0,3,0,3">
-                                    </TextBox>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Телефон" Width="120">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBox    Name="ChangeTelephoneText"
-                                            Text="{Binding Telephone}" 
-                                            TextWrapping="Wrap" 
-                                            Width="105"
-                                            MinWidth="105"
-                                            MaxWidth="105"
-                                            Margin="0,3,0,3">
-                                    </TextBox>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Паспортные данные" Width="120">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBox    Name="ChangeDataPassportText"
-                                            Text="{Binding DataPassport}" 
-                                            TextWrapping="Wrap" 
-                                            Width="105"
-                                            MinWidth="105"
-                                            MaxWidth="105"
-                                            Margin="0,3,0,3">
-                                    </TextBox>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Время изменения записи" DisplayMemberBinding="{Binding TimeChangeOrder}" Width="150"/>
-                    <GridViewColumn Header="Что поменялось" DisplayMemberBinding="{Binding WhichDataChange}" Width="300"/>
-                    <GridViewColumn Header="Тип изменений" DisplayMemberBinding="{Binding TypeOfChange}" Width="120"/>
-                    <GridViewColumn Header="Кто изменил" DisplayMemberBinding="{Binding WhoChanged}" Width="100"/>
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding SecondName}" Width="130"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}" Width="130"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding MiddleName}" Width="130"/>
+                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding Telephone}" Width="120"/>
+                    <GridViewColumn Header="Паспортные данные" DisplayMemberBinding="{Binding DataPassport}"  Width="120"/>
+                    <GridViewColumn Header="Время изменения" DisplayMemberBinding="{Binding TimeChangeOrder}" Width="140"/>
+                    <GridViewColumn Header="Что поменялось" DisplayMemberBinding="{Binding WhichDataChange}" Width="280"/>
+                    <GridViewColumn Header="Тип изменений" DisplayMemberBinding="{Binding TypeOfChange}" Width="130"/>
+                    <GridViewColumn Header="Кто изменил" DisplayMemberBinding="{Binding WhoChanged}" Width="90"/>
                 </GridView>
             </ListView.View>
         </ListView>
-
     </Grid>
 </Page>
