@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -64,6 +65,11 @@ namespace OOP1_v2
         }
 
         public List<Worker> AddOrder(List<Worker> managers, List<string> newData)
+        {
+            return managers;
+        }
+
+        public List<Worker> DeleteOrder(List<Worker> managers, int index)
         {
             return managers;
         }

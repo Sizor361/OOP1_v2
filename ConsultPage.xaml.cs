@@ -142,6 +142,57 @@ namespace OOP1_v2
             ChangePanel.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Сортировка нажатием на заголовок
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GridViewColumnHeaderClickedHandler(object sender, RoutedEventArgs e)
+        {
+            var headerClicked = e.OriginalSource as GridViewColumnHeader;
+            string header = Convert.ToString(headerClicked.Content);
+
+            if (header == "Фамилия")
+            {
+                consults.Sort(Worker.SortedBy(SortedCriterion.SecondName));
+            }
+            else if (header == "Имя")
+            {
+                consults.Sort(Worker.SortedBy(SortedCriterion.Name));
+            }
+            else if (header == "Отчество")
+            {
+                consults.Sort(Worker.SortedBy(SortedCriterion.MiddleName));
+            }
+            else if (header == "Телефон")
+            {
+                consults.Sort(Worker.SortedBy(SortedCriterion.Telephone));
+            }
+            else if (header == "Время изменения")
+            {
+                consults.Sort(Worker.SortedBy(SortedCriterion.TimeChangeOrder));
+            }
+            else if (header == "Что поменялось")
+            {
+                consults.Sort(Worker.SortedBy(SortedCriterion.WhichDataChange));
+            }
+            else if (header == "Тип изменений")
+            {
+                consults.Sort(Worker.SortedBy(SortedCriterion.TypeOfChange));
+            }
+            else if (header == "Кто изменил")
+            {
+                consults.Sort(Worker.SortedBy(SortedCriterion.WhoChanged));
+            }
+
+            consultsView.Clear();
+
+            foreach (var item in consults)
+            {
+                consultsView.Add(item);
+            }
+        }
+
         #endregion
     }
 }

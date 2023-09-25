@@ -48,7 +48,17 @@ namespace OOP1_v2
         /// <param name="e"></param>
         private void Consult_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = consultPage;
+            if (MainFrame.Content != consultPage)
+            {
+                MainFrame.Content = consultPage;
+                ConsultPage.Background = Brushes.Orange;
+                ManagerPage.Background = Brushes.White;
+            }
+            else
+            {
+                MainFrame.Content = "";
+                ConsultPage.Background = Brushes.White;
+            }
         }
 
         /// <summary>
@@ -58,7 +68,17 @@ namespace OOP1_v2
         /// <param name="e"></param>
         private void Manager_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = managerPage;
+            if (MainFrame.Content != managerPage)
+            {
+                MainFrame.Content = managerPage;
+                ManagerPage.Background = Brushes.Orange;
+                ConsultPage.Background = Brushes.White;
+            }
+            else
+            {
+                MainFrame.Content = "";
+                ManagerPage.Background = Brushes.White;
+            }
         }
 
         #endregion

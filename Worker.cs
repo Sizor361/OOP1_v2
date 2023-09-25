@@ -11,6 +11,19 @@ using System.Windows;
 
 namespace OOP1_v2
 {
+    enum SortedCriterion
+    {
+        SecondName,
+        Name,
+        MiddleName,
+        Telephone,
+        DataPassport,
+        TimeChangeOrder,
+        WhichDataChange,
+        TypeOfChange,
+        WhoChanged
+    }
+
     abstract class Worker
     {
         #region Статичные переменные
@@ -54,13 +67,13 @@ namespace OOP1_v2
 
         public string DataPassport { get; set; }
 
-        public string TimeChangeOrder { get; set; } = "Изменений не было";
+        public string TimeChangeOrder { get; set; } = "No data";
 
-        public string WhichDataChange { get; set; } = "Изменений не было";
+        public string WhichDataChange { get; set; } = "No data";
 
-        public string TypeOfChange { get; set; } = "Изменений не было";
+        public string TypeOfChange { get; set; } = "No data";
 
-        public string WhoChanged { get; set; } = "Изменений не было";
+        public string WhoChanged { get; set; } = "No data";
 
         #endregion
 
@@ -217,6 +230,101 @@ namespace OOP1_v2
             }
 
         }
+
+        #endregion
+
+        #region Интерфейсы
+
+        public static IComparer<Worker> SortedBy(SortedCriterion Criterion)
+        {
+            if (Criterion == SortedCriterion.SecondName) return new SortBySecondName();
+            else if (Criterion == SortedCriterion.Name) return new SortByName();
+            else if (Criterion == SortedCriterion.MiddleName) return new SortByMiddleName();
+            else if (Criterion == SortedCriterion.Telephone) return new SortByTelephone();
+            else if (Criterion == SortedCriterion.DataPassport) return new SortByDataPassport();
+            else if (Criterion == SortedCriterion.TimeChangeOrder) return new SortByTimeChangeOrder();
+            else if (Criterion == SortedCriterion.WhichDataChange) return new SortByWhichDataChange();
+            else if (Criterion == SortedCriterion.TypeOfChange) return new SortByTypeOfChange();
+            else if (Criterion == SortedCriterion.WhoChanged) return new SortByWhoChanged();
+            else return null;
+        }
+
+        #endregion
+
+        #region Классы
+
+        private class SortBySecondName : IComparer<Worker>
+        {
+            public int Compare(Worker x, Worker y)
+            {
+                return String.Compare(x.SecondName, y.SecondName);
+            }
+        }
+
+        private class SortByName : IComparer<Worker>
+        {
+            public int Compare(Worker x, Worker y)
+            {
+                return String.Compare(x.Name, y.Name);
+            }
+        }
+
+        private class SortByMiddleName : IComparer<Worker>
+        {
+            public int Compare(Worker x, Worker y)
+            {
+                return String.Compare(x.MiddleName, y.MiddleName);
+            }
+        }
+
+        private class SortByTelephone : IComparer<Worker>
+        {
+            public int Compare(Worker x, Worker y)
+            {
+                return String.Compare(x.Telephone, y.Telephone);
+            }
+        }
+
+        private class SortByDataPassport : IComparer<Worker>
+        {
+            public int Compare(Worker x, Worker y)
+            {
+                return String.Compare(x.DataPassport, y.DataPassport);
+            }
+        }
+
+        private class SortByTimeChangeOrder : IComparer<Worker>
+        {
+            public int Compare(Worker x, Worker y)
+            {
+                return String.Compare(x.TimeChangeOrder, y.TimeChangeOrder);
+            }
+        }
+
+        private class SortByWhichDataChange : IComparer<Worker>
+        {
+            public int Compare(Worker x, Worker y)
+            {
+                return String.Compare(x.WhichDataChange, y.WhichDataChange);
+            }
+        }
+
+        private class SortByTypeOfChange : IComparer<Worker>
+        {
+            public int Compare(Worker x, Worker y)
+            {
+                return String.Compare(x.TypeOfChange, y.TypeOfChange);
+            }
+        }
+
+        private class SortByWhoChanged : IComparer<Worker>
+        {
+            public int Compare(Worker x, Worker y)
+            {
+                return String.Compare(x.WhoChanged, y.WhoChanged);
+            }
+        }
+
 
         #endregion
     }

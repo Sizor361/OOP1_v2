@@ -5,23 +5,24 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:OOP1_v2"
       mc:Ignorable="d" 
-       d:DesignHeight="700" d:DesignWidth="1300"
+       d:DesignHeight="700" d:DesignWidth="1470"
         Title="ConsultPage">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="156"/>
-            <ColumnDefinition Width="156"/>
-            <ColumnDefinition Width="156"/>
-            <ColumnDefinition Width="156"/>
-            <ColumnDefinition Width="156"/>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="170"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
@@ -31,26 +32,28 @@
 
         <ListView x:Name="WorkerConsultList" 
                     Grid.Column="0"
-                    Grid.ColumnSpan="12" 
+                    Grid.ColumnSpan="13" 
                     Grid.Row="2" 
-                    SelectionChanged="SelectOrder" 
-                    Loaded="Refresh">
+                    SelectionChanged="SelectOrder"
+                  Margin="0,0,0,0"
+                    Loaded="Refresh"
+                  GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding SecondName}" Width="130"/>
-                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}" Width="130"/>
-                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding MiddleName}" Width="130"/>
-                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding Telephone}" Width="120"/>
-                    <GridViewColumn Header="Паспортные данные" DisplayMemberBinding="{Binding DataPassport}"  Width="120"/>
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding SecondName}" Width="140"/>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}" Width="140"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding MiddleName}" Width="140"/>
+                    <GridViewColumn Header="Телефон" DisplayMemberBinding="{Binding Telephone}" Width="130"/>
+                    <GridViewColumn Header="Паспортные данные" DisplayMemberBinding="{Binding DataPassport}"  Width="140"/>
                     <GridViewColumn Header="Время изменения" DisplayMemberBinding="{Binding TimeChangeOrder}" Width="140"/>
-                    <GridViewColumn Header="Что поменялось" DisplayMemberBinding="{Binding WhichDataChange}" Width="280"/>
-                    <GridViewColumn Header="Тип изменений" DisplayMemberBinding="{Binding TypeOfChange}" Width="130"/>
-                    <GridViewColumn Header="Кто изменил" DisplayMemberBinding="{Binding WhoChanged}" Width="90"/>
+                    <GridViewColumn Header="Что поменялось" DisplayMemberBinding="{Binding WhichDataChange}" Width="250"/>
+                    <GridViewColumn Header="Тип изменений" DisplayMemberBinding="{Binding TypeOfChange}" Width="250"/>
+                    <GridViewColumn Header="Кто изменил" DisplayMemberBinding="{Binding WhoChanged}" Width="140"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Button x:Name="ChangeOrderButton" Content="Изменить"  Margin="5,-50,5,10" Grid.Column="9" 
+        <Button x:Name="ChangeOrderButton" Content="Изменить"  Margin="5,-50,5,10" Grid.Column="11" 
         Click="ChangeOrder" FontSize="14" IsEnabled="False" Width="90" Height="40" />
 
         <StackPanel x:Name="ChangePanel" Grid.Column="3" Grid.ColumnSpan="6" Margin="0,-100,0,10" Grid.RowSpan="2" Orientation="Horizontal" VerticalAlignment ="Center" HorizontalAlignment="Center" Visibility="Hidden" >

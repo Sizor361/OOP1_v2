@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -93,11 +96,13 @@ namespace OOP1_v2
             if (WorkerManagerList.SelectedIndex >= 0)
             {
                 ChangeOrderButton.IsEnabled = true;
+                DeleteOrderButton.IsEnabled = true;
                 isSelect = true;
             }
             else
             {
                 ChangeOrderButton.IsEnabled = false;
+                DeleteOrderButton.IsEnabled = false;
                 isSelect = false;
             }
         }
@@ -138,7 +143,6 @@ namespace OOP1_v2
             }
 
             managers = manager.RefreshDBView(managersView, managers);
-            WorkerManagerList.ItemsSource = managersView;
 
             ChangePanel.Visibility = Visibility.Hidden;
 
@@ -153,6 +157,68 @@ namespace OOP1_v2
         {
             Refresh();
             ChangePanel.Visibility = Visibility.Hidden;
+        }
+
+        /// <summary>
+        /// Сортировка нажатием на заголовок
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GridViewColumnHeaderClickedHandler(object sender, RoutedEventArgs e)
+        {
+            var headerClicked = e.OriginalSource as GridViewColumnHeader;
+            string header = Convert.ToString(headerClicked.Content);
+
+            if (header == "Фамилия")
+            {
+                managers.Sort(Worker.SortedBy(SortedCriterion.SecondName));
+            }
+            else if (header == "Имя")
+            {
+                managers.Sort(Worker.SortedBy(SortedCriterion.Name));
+            }
+            else if (header == "Отчество")
+            {
+                managers.Sort(Worker.SortedBy(SortedCriterion.MiddleName));
+            }
+            else if (header == "Телефон")
+            {
+                managers.Sort(Worker.SortedBy(SortedCriterion.Telephone));
+            }
+            else if (header == "Паспортные данные")
+            {
+                managers.Sort(Worker.SortedBy(SortedCriterion.DataPassport));
+            }
+            else if (header == "Время изменения")
+            {
+                managers.Sort(Worker.SortedBy(SortedCriterion.TimeChangeOrder));
+            }
+            else if (header == "Что поменялось")
+            {
+                managers.Sort(Worker.SortedBy(SortedCriterion.WhichDataChange));
+            }
+            else if (header == "Тип изменений")
+            {
+                managers.Sort(Worker.SortedBy(SortedCriterion.TypeOfChange));
+            }
+            else if (header == "Кто изменил")
+            {
+                managers.Sort(Worker.SortedBy(SortedCriterion.WhoChanged));
+            }
+
+            managersView.Clear();
+
+            foreach (var item in managers)
+            {
+                managersView.Add(item);
+            }
+        }
+
+        private void DeleteOrder(object sender, RoutedEventArgs e)
+        {
+            managers = manager.DeleteOrder(managers, WorkerManagerList.SelectedIndex);
+            manager.CheckAndWrite(managers);
+            managers = manager.RefreshDBView(managersView, managers);
         }
 
         #endregion

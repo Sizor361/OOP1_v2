@@ -85,6 +85,12 @@ namespace OOP1_v2
             return managers;
         }
 
+        public List<Worker> DeleteOrder(List<Worker> managers, int index)
+        {
+            managers.Remove(managers[index]);
+            return managers;
+        }
+
         #endregion
     }
 }
